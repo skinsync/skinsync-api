@@ -2,14 +2,14 @@ const express = require('express');
 const router = express.Router();
 const userHandler = require('./handler/users');
 const userIdHandler = require('./handler/users/id');
+const verifyToken = require('../middlewares/verify-token');
 
 router.route("/")
-    .get(userHandler.get)
-    .post(userHandler.post);
+    .get(verifyToken, userHandler.get)
 
 router.route("/:userId")
-    .get(userIdHandler.get)
-    .put(userIdHandler.put)
-    .delete(userIdHandler.delete);
+    .get(verifyToken, userIdHandler.get)
+    .put(verifyToken, userIdHandler.put)
+    .delete(verifyToken, userIdHandler.delete);
 
 module.exports = router;
