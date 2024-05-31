@@ -40,7 +40,7 @@ module.exports = async (req, res) => {
     };
 
     const token = jwt.sign({data}, 'sadfhasdda', {
-        expiresIn: '10s',
+        expiresIn: '1d',
     });
     
     return res.json({

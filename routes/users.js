@@ -3,13 +3,14 @@ const router = express.Router();
 const userHandler = require('./handler/users');
 const userIdHandler = require('./handler/users/id');
 const verifyToken = require('../middlewares/verify-token');
+const admin = require('../middlewares/admin')
 
 router.route("/")
-    .get(verifyToken, userHandler.get)
+    .get(verifyToken, admin, userHandler.get)
 
 router.route("/:userId")
-    .get(verifyToken, userIdHandler.get)
+    .get(verifyToken, admin, userIdHandler.get)
     .put(verifyToken, userIdHandler.put)
-    .delete(verifyToken, userIdHandler.delete);
+    .delete(verifyToken, admin, userIdHandler.delete);
 
 module.exports = router;

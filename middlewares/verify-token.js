@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
     //get auth token
     const token = req.headers.authorization;
     if(!token)
-        return res.status(403).json({
+        return res.status(401).json({
             message: 'incorrect credential',
         });
 
@@ -28,7 +28,7 @@ module.exports = async (req, res, next) => {
 
         next();
     } catch (error) {
-        return res.status(403).json({
+        return res.status(401).json({
             message: 'incorrect credential',
         });
     }
