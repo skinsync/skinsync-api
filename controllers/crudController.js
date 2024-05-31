@@ -1,4 +1,4 @@
-const { Op } = require('sequelize');
+const { Op } = require("sequelize");
 
 class CrudController {
   constructor(model) {
@@ -11,7 +11,14 @@ class CrudController {
   }
 
   async getAll(req, res) {
-    const { page = 1, limit = 10, sortBy = 'id', order = 'ASC', search = '', ...filters } = req.query;
+    const {
+      page = 1,
+      limit = 10,
+      sortBy = "id",
+      order = "ASC",
+      search = "",
+      ...filters
+    } = req.query;
     const offset = (page - 1) * limit;
 
     const searchCondition = search
@@ -38,8 +45,16 @@ class CrudController {
         limit: parseInt(limit),
         offset,
         order: [[sortBy, order]],
+        attributes: {
+          exclude: ["password"],
+        },
       });
-      res.status(200).json({ data: rows, total: count, page: parseInt(page), pages: Math.ceil(count / limit) });
+      res.status(200).json({
+        data: rows,
+        total: count,
+        page: parseInt(page),
+        pages: Math.ceil(count / limit),
+      });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -47,11 +62,15 @@ class CrudController {
 
   async getOne(req, res) {
     try {
-      const record = await this.model.findByPk(req.params.id);
-      if (!record) return res.status(404).json({ error: 'Record not found' });
+      const record = await this.model.findByPk(req.params.id, {
+        attributes: {
+          exclude: ["password"],
+        },
+      });
+      if (!record) return res.status(404).json({ error: "Record not found" });
       const response = {
         data: record,
-        message: 'Record retrieved successfully',
+        message: "Record retrieved successfully",
       };
       res.status(200).json(response);
     } catch (error) {
@@ -64,7 +83,7 @@ class CrudController {
       const record = await this.model.create(req.body);
       const response = {
         data: record,
-        message: 'Record created successfully',
+        message: "Record created successfully",
       };
       res.status(201).json(response);
     } catch (error) {
@@ -74,12 +93,18 @@ class CrudController {
 
   async update(req, res) {
     try {
-      const [updated] = await this.model.update(req.body, { where: { id: req.params.id } });
-      if (!updated) return res.status(404).json({ error: 'Record not found' });
-      const updatedRecord = await this.model.findByPk(req.params.id);
+      const [updated] = await this.model.update(req.body, {
+        where: { id: req.params.id },
+      });
+      if (!updated) return res.status(404).json({ error: "Record not found" });
+      const updatedRecord = await this.model.findByPk(req.params.id, {
+        attributes: {
+          exclude: ["password"],
+        },
+      });
       const response = {
         data: updatedRecord,
-        message: 'Record updated successfully',
+        message: "Record updated successfully",
       };
       res.status(200).json(response);
     } catch (error) {
@@ -89,10 +114,12 @@ class CrudController {
 
   async delete(req, res) {
     try {
-      const deleted = await this.model.destroy({ where: { id: req.params.id } });
-      if (!deleted) return res.status(404).json({ error: 'Record not found' });
+      const deleted = await this.model.destroy({
+        where: { id: req.params.id },
+      });
+      if (!deleted) return res.status(404).json({ error: "Record not found" });
       res.status(200).json({
-        message: 'Record deleted successfully',
+        message: "Record deleted successfully",
       });
     } catch (error) {
       res.status(500).json({ error: error.message });
