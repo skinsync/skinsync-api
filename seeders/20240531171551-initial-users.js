@@ -10,7 +10,7 @@ module.exports = {
         {
           name: "admin",
           email: "admin@skinsync.com",
-          password: hashSync("password", 8),
+          password: hashSync("password", parseInt(dotenv.SALT_ROUND)),
           role: 'admin',
           created_at: new Date(),
           updated_at: new Date(),
@@ -18,7 +18,7 @@ module.exports = {
         {
           name: "John Doe",
           email: "johndoe@skinsync.com",
-          password: hashSync("password", 8),
+          password: hashSync("password", parseInt(dotenv.SALT_ROUND)),
           role: 'member',
           created_at: new Date(),
           updated_at: new Date(),
