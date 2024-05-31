@@ -7,8 +7,7 @@ const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 
 const generateCrudRoutes = require('./routes/crudRoutes');
-const articles = require('./models/').Articles;
-const user = require('./models/').User;
+const { User, Article } = require('./models/');
 
 const app = express();
 
@@ -20,8 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
-
-app.use('/articles', generateCrudRoutes(articles));
-app.use('/users', generateCrudRoutes(user));
+app.use('/users', generateCrudRoutes(User));
+app.use('/articles', generateCrudRoutes(Article));
 
 module.exports = app;
