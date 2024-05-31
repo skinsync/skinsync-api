@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const dotenv = (require("dotenv").config()).parsed
 
-const register = async (req, res) => {
+exports.register = async (req, res) => {
   const { body } = req;
 
   //validasi user input
@@ -47,7 +47,7 @@ const register = async (req, res) => {
   return res.json(response);
 };
 
-const login = async (req, res) => {
+exports.login = async (req, res) => {
   const { body } = req;
 
   //validasi user input
@@ -93,9 +93,4 @@ const login = async (req, res) => {
     token,
     message : "Login success",
   });
-};
-
-module.exports = {
-  register,
-  login,
 };
