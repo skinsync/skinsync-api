@@ -1,5 +1,6 @@
 "use strict";
 const { hashSync } = require("bcrypt");
+const dotenv = require("dotenv").config().parsed;
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
