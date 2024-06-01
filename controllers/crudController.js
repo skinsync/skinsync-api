@@ -1,4 +1,6 @@
 const { Op } = require("sequelize");
+const bcrypt = require("bcrypt");
+const dotenv = require("dotenv").config().parsed;
 
 class CrudController {
   constructor(model) {
@@ -80,7 +82,15 @@ class CrudController {
 
   async create(req, res) {
     try {
+      if (req.body.password) {
+        req.body.password = await bcrypt.hash(
+          req.body.password,
+          parseInt(dotenv.SALT_ROUND)
+        );
+      }
       const record = await this.model.create(req.body);
+      delete record.dataValues.password;
+      console.log(record);
       const response = {
         data: record,
         message: "Record created successfully",
@@ -93,6 +103,12 @@ class CrudController {
 
   async update(req, res) {
     try {
+      if (req.body.password) {
+        req.body.password = await bcrypt.hash(
+          req.body.password,
+          parseInt(dotenv.SALT_ROUND)
+        );
+      }
       const [updated] = await this.model.update(req.body, {
         where: { id: req.params.id },
       });

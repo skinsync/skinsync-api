@@ -5,6 +5,7 @@ const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
+const usersRouter = require('./routes/users');
 
 const generateCrudRoutes = require('./routes/crudRoutes');
 const { User, Article } = require('./models/');
@@ -26,7 +27,7 @@ app.use((req, res, next) => {
 
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
-app.use('/users', generateCrudRoutes(User));
+app.use('/users', usersRouter);
 app.use('/articles', generateCrudRoutes(Article));
 
 module.exports = app;
