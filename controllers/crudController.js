@@ -90,7 +90,6 @@ class CrudController {
       }
       const record = await this.model.create(req.body);
       delete record.dataValues.password;
-      console.log(record);
       const response = {
         data: record,
         message: "Record created successfully",
