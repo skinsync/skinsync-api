@@ -1,4 +1,4 @@
-const {object, string, date, mixed} = require("yup");
+const { object, string } = require("yup");
 
 module.exports = object({
   title: string().required("Title is required"),

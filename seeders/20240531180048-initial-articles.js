@@ -16,6 +16,8 @@ module.exports = {
           picture:
             "https://assets.unileversolutions.com/v1/42503275.jpg?im=Resize,width=1100,height=486",
           url: "https://www.lifebuoy.co.id/semua-artikel/berita-kesehatan/cara-menjaga-kesehatan-kulit-agar-tampak-sehat-dan-terawat.html",
+          created_at: new Date(),
+          updated_at: new Date(),
         },
       ],
       {}

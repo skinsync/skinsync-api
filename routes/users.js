@@ -2,8 +2,8 @@ const generateCrudRoutes = require("./crudRoutes");
 
 const { User } = require("../models/");
 
-const userValidationSchema = require("../validations/userValidationSchema");
+const validationSchema = require("../validations/userValidationSchema");
 
-const usersRouter = generateCrudRoutes(User, userValidationSchema);
+const router = generateCrudRoutes(User, validationSchema);
 
-module.exports = usersRouter;
+module.exports = router;
