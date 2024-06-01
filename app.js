@@ -7,6 +7,7 @@ const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 const articlesRouter = require('./routes/articles');
+const brandsRouter = require('./routes/brands');
 
 const generateCrudRoutes = require('./routes/crudRoutes');
 const { User, Article } = require('./models/');
@@ -30,5 +31,6 @@ app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 app.use('/articles', articlesRouter);
+app.use('/brands', brandsRouter);
 
 module.exports = app;
