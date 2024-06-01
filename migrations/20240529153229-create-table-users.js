@@ -33,8 +33,9 @@ module.exports = {
         allowNull: true,
       },
       gender: {
-        type: Sequelize.STRING,
+        type: Sequelize.ENUM,
         allowNull: true,
+        values: ["male", "female"],
       },
       profile_picture: {
         type: Sequelize.STRING,
