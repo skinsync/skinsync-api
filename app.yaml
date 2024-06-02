@@ -1,0 +1,10 @@
+runtime: nodejs20
+
+service: api
+
+env_variables:
+  NODE_ENV: 'production'
+
+handlers:
+  - url: /.*
+    script: auto
