@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const dotenv = require('dotenv');
 
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
@@ -15,6 +16,9 @@ const generateCrudRoutes = require('./routes/crudRoutes');
 const { User, Article } = require('./models/');
 
 const app = express();
+
+dotenv.config();
+const PORT = process.env.PORT || 3300;
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -37,4 +41,6 @@ app.use('/brands', brandsRouter);
 app.use('/product-types', productTypesRouter);
 app.use('/products', productsRouter);
 
-module.exports = app;
+app.listen(PORT, () => {
+  console.log("Express API running in port: " + PORT);
+});
