@@ -31,6 +31,7 @@ jobs:
           echo "DB_DIALECT=${{ secrets.DB_DIALECT }}" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           echo "SALT_ROUND=${{ secrets.SALT_ROUND }}" >> .env
+          echo "GCLOUD_STORAGE_BUCKET=${{ secrets.GCLOUD_STORAGE_BUCKET }}" >> .env
 
       - name: Install dependencies
         run: npm install
