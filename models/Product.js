@@ -10,23 +10,23 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Product.belongsTo(models.Brand, {
-        foreignKey: "brandId",
+        foreignKey: "brand_id",
         as: "Brand",
       });
       Product.belongsTo(models.ProductType, {
-        foreignKey: "productTypeId",
-        as: "productType",
+        foreignKey: "product_type_id",
+        as: "ProductType",
       });
     }
   }
   Product.init(
     {
-      brandId: {
+      brand_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         field: "brand_id",
       },
-      productTypeId: {
+      product_type_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         field: "product_type_id",
