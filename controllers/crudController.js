@@ -52,8 +52,24 @@ class CrudController {
         },
         include: [{ all: true, nested: true }],
       });
+
+      const cleanedRecords = rows.map((record) => {
+        const cleanedRecord = record.toJSON();
+        if (this.model.name === "Product") {
+          delete cleanedRecord.users;
+        }
+        if (
+          this.model.name === "User" ||
+          this.model.name === "Brand" ||
+          this.model.name === "ProductType"
+        ) {
+          delete cleanedRecord.products;
+        }
+        return cleanedRecord;
+      });
+
       res.status(200).json({
-        data: rows,
+        data: cleanedRecords,
         total: count,
         page: parseInt(page),
         pages: Math.ceil(count / limit),
@@ -72,8 +88,21 @@ class CrudController {
         include: [{ all: true, nested: true }],
       });
       if (!record) return res.status(404).json({ error: "Record not found" });
+
+      const cleanedRecord = record.toJSON();
+      if (this.model.name === "Product") {
+        delete cleanedRecord.users;
+      }
+      if (
+        this.model.name === "User" ||
+        this.model.name === "Brand" ||
+        this.model.name === "ProductType"
+      ) {
+        delete cleanedRecord.products;
+      }
+
       const response = {
-        data: record,
+        data: cleanedRecord,
         message: "Record retrieved successfully",
       };
       res.status(200).json(response);
