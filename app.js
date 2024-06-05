@@ -13,6 +13,7 @@ const productTypesRouter = require('./routes/productTypes');
 const productsRouter = require('./routes/products');
 const filesRouter = require('./routes/files');
 const utilsRouter = require('./routes/utils');
+const profileRouter = require('./routes/profile');
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use('/product-types', productTypesRouter);
 app.use('/products', productsRouter);
 app.use('/files', filesRouter);
 app.use('/utils', utilsRouter);
+app.use('/profile', profileRouter);
 
 app.listen(PORT, () => {
   console.log("Express API running in port: " + PORT);
