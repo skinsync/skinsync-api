@@ -50,6 +50,7 @@ class CrudController {
         attributes: {
           exclude: ["password"],
         },
+        include: [{ all: true, nested: true }],
       });
       res.status(200).json({
         data: rows,
@@ -68,6 +69,7 @@ class CrudController {
         attributes: {
           exclude: ["password"],
         },
+        include: [{ all: true, nested: true }],
       });
       if (!record) return res.status(404).json({ error: "Record not found" });
       const response = {
