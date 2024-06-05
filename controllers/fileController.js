@@ -1,21 +1,26 @@
-const multer = require("multer");
 const { Storage } = require("@google-cloud/storage");
 const path = require("path");
 const dotenv = require("dotenv").config().parsed;
 
 const gc = new Storage();
 const bucket = gc.bucket(process.env.GCLOUD_STORAGE_BUCKET);
-const folderPath = "article_images/";
 
 exports.upload = async (req, res) => {
-  console.log(req.file);
-  
   if (!req.file) {
     return res.status(400).send("No file uploaded.");
   }
 
+  const { folder } = req.query;
+  
+  if (folder) {
+    var folderPath = folder + "/";
+  }
+  else {
+    var folderPath = "";
+  }
+
   const blob = bucket.file(
-    Date.now() + path.extname(req.file.originalname)
+    folderPath + Date.now() + "_" + req.file.originalname
   );
   const blobStream = blob.createWriteStream({
     resumable: false,
