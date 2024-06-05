@@ -12,9 +12,7 @@ const brandsRouter = require('./routes/brands');
 const productTypesRouter = require('./routes/productTypes');
 const productsRouter = require('./routes/products');
 const filesRouter = require('./routes/files');
-
-const generateCrudRoutes = require('./routes/crudRoutes');
-const { User, Article } = require('./models/');
+const utilsRouter = require('./routes/utils');
 
 const app = express();
 
@@ -42,6 +40,7 @@ app.use('/brands', brandsRouter);
 app.use('/product-types', productTypesRouter);
 app.use('/products', productsRouter);
 app.use('/files', filesRouter);
+app.use('/utils', utilsRouter);
 
 app.listen(PORT, () => {
   console.log("Express API running in port: " + PORT);
