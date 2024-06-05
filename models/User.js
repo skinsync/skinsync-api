@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       User.belongsToMany(models.Product, {
         through: models.SavedProduct,
         foreignKey: "user_id",
-        as: "Products",
+        as: "products",
       });
     }
   }
@@ -73,5 +73,5 @@ module.exports = (sequelize, DataTypes) => {
       deletedAt: "deletedAt",
     }
   );
-  return Product;
+  return User;
 };
