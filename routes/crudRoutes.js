@@ -3,13 +3,13 @@ const CrudController = require("../controllers/crudController");
 const verifyToken = require("../middlewares/verify-token");
 const admin = require("../middlewares/admin");
 const validate = require("../middlewares/validate");
-const { User, Article } = require("../models/");
+const { User, Article, Product } = require("../models/");
 
 const generateCrudRoutes = (model, validationSchema = {}) => {
   const router = express.Router();
   const controller = new CrudController(model);
 
-  const userReadOnlyModels = [Article];
+  const userReadOnlyModels = [Article, Product];
   const isUserReadOnly = userReadOnlyModels.includes(model);
 
   if (isUserReadOnly) {
