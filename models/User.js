@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
             values: ["male", "female"],
           },
-          profilePicture: {
+          profile_picture: {
             type: DataTypes.STRING,
             allowNull: true,
             field: "profile_picture",
@@ -44,19 +44,17 @@ module.exports = (sequelize, DataTypes) => {
           createdAt: {
             type: DataTypes.DATE,
             allowNull: false,
-            field: "created_at",
           },
           updatedAt: {
             type: DataTypes.DATE,
             allowNull: false,
-            field: "updated_at",
           },
     }, 
     {
         tableName: "users",
         timestamps: true,
         paranoid: true,
-        deletedAt: "deleted_at",
+        deletedAt: "deletedAt",
     }
 );
 return User;

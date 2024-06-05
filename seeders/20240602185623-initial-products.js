@@ -15,8 +15,8 @@ module.exports = {
           url: "https://example.com",
           picture: "https://example.com/picture.jpg",
           priority: 1,
-          created_at: new Date(),
-          updated_at: new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
         {
           brand_id: 1,
@@ -27,8 +27,8 @@ module.exports = {
           url: "https://example.com",
           picture: "https://example.com/picture.jpg",
           priority: 2,
-          created_at: new Date(),
-          updated_at: new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
         {
           brand_id: 1,
@@ -39,8 +39,8 @@ module.exports = {
           url: "https://example.com",
           picture: "https://example.com/picture.jpg",
           priority: 3,
-          created_at: new Date(),
-          updated_at: new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
       ],
       {}
