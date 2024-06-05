@@ -3,10 +3,16 @@ const { User, SavedProduct } = require("../models");
 exports.getListSavedProducts = async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id, {
-      include: "products",
+      include: {nested: true, all: true},
     });
+
+    const products = user.products.map(product => {
+      const { SavedProduct, ...rest } = product.toJSON();
+      return rest;
+    });
+
     res.json({
-      data: user.products,
+      data: products,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
