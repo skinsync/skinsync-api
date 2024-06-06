@@ -15,6 +15,10 @@ const filesRouter = require('./routes/files');
 const utilsRouter = require('./routes/utils');
 const profileRouter = require('./routes/profile');
 const savedProductsRouter = require('./routes/savedProducts');
+const predictRouter = require('./routes/predict');
+
+const loadModel = require('./services/loadModel');
+const model = loadModel();
 
 const app = express();
 
@@ -34,6 +38,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.locals.model = model;
+
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
@@ -45,6 +51,7 @@ app.use('/files', filesRouter);
 app.use('/utils', utilsRouter);
 app.use('/profile', profileRouter);
 app.use('/saved-products', savedProductsRouter);
+app.use('/predict', predictRouter);
 
 app.listen(PORT, () => {
   console.log("Express API running in port: " + PORT);
