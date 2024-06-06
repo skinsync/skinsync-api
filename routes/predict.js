@@ -7,6 +7,6 @@ const verifyToken = require("../middlewares/verify-token");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-router.get("/", upload.single("image"), verifyToken, inferenceController.predictSkintype);
+router.post("/", upload.single("image"), verifyToken, inferenceController.predictSkintype);
 
 module.exports = router;
