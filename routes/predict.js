@@ -1,8 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const inferenceController = require("../controllers/inferenceController");
+const multer = require("multer");
 const verifyToken = require("../middlewares/verify-token");
 
-router.get("/", verifyToken, inferenceController.predictSkintype);
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+router.get("/", upload.single("image"), verifyToken, inferenceController.predictSkintype);
 
 module.exports = router;
