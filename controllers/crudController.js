@@ -56,6 +56,10 @@ class CrudController {
       const cleanedRecords = rows.map((record) => {
         const cleanedRecord = record.toJSON();
         if (this.model.name === "Product") {
+          const isSavedByUser = cleanedRecord.users.some(
+            (user) => user.id === req.user.id
+          );
+          cleanedRecord.isSavedByUser = isSavedByUser;
           delete cleanedRecord.users;
         }
         if (
@@ -90,7 +94,12 @@ class CrudController {
       if (!record) return res.status(404).json({ error: "Record not found" });
 
       const cleanedRecord = record.toJSON();
+      
       if (this.model.name === "Product") {
+        const isSavedByUser = cleanedRecord.users.some(
+          (user) => user.id === req.user.id
+        );
+        cleanedRecord.isSavedByUser = isSavedByUser;
         delete cleanedRecord.users;
       }
       if (
