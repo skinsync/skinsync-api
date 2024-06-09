@@ -15,9 +15,7 @@ const filesRouter = require('./routes/files');
 const utilsRouter = require('./routes/utils');
 const profileRouter = require('./routes/profile');
 const savedProductsRouter = require('./routes/savedProducts');
-const predictRouter = require('./routes/predict');
-
-const loadModel = require('./services/loadModel');
+// const predictRouter = require('./routes/predict');
 
 const app = express();
 
@@ -48,10 +46,7 @@ app.use('/files', filesRouter);
 app.use('/utils', utilsRouter);
 app.use('/profile', profileRouter);
 app.use('/saved-products', savedProductsRouter);
-app.use('/predict', predictRouter);
-
-const model = loadModel();
-app.locals.model = model;
+// app.use('/predict', predictRouter);
 
 app.listen(PORT, () => {
   console.log("Express API running in port: " + PORT);
