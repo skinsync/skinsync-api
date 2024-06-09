@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       User.belongsToMany(models.Product, {
         through: models.SavedProduct,
         foreignKey: "user_id",
-        as: "products",
+        as: "savedProducts",
       });
     }
   }
