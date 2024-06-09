@@ -82,6 +82,7 @@ exports.login = async (req, res) => {
     email: user.email,
     birthdate: user.birthdate,
     profile_picture: user.profile_picture,
+    role: user.role,
   };
 
   const token = jwt.sign({ data }, dotenv.JWT_SECRET, {
