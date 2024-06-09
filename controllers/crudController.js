@@ -67,7 +67,7 @@ class CrudController {
           this.model.name === "Brand" ||
           this.model.name === "ProductType"
         ) {
-          delete cleanedRecord.products;
+          delete cleanedRecord.savedProducts;
         }
         return cleanedRecord;
       });
