@@ -32,7 +32,8 @@ jobs:
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           echo "SALT_ROUND=${{ secrets.SALT_ROUND }}" >> .env
           echo "GCLOUD_STORAGE_BUCKET=${{ secrets.GCLOUD_STORAGE_BUCKET }}" >> .env
-          echo "MODEL_URL=${{ secrets.MODEL_URL }}" >> .env
+          echo "SKINTYPE_PREDICTION_MODEL_URL=${{ secrets.SKINTYPE_PREDICTION_MODEL_URL }}" >> .env
+          echo "SKINCARE_RECOMMENDATION_MODEL_URL=${{ secrets.SKINCARE_RECOMMENDATION_MODEL_URL }}" >> .env
 
       - name: Install dependencies
         run: npm install
