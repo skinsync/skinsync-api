@@ -109,12 +109,6 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          name: "BIORE ",
-          description: "",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
           name: "BIORE",
           description: "",
           createdAt: new Date(),
@@ -637,12 +631,6 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          name: "NIVEA  ",
-          description: "",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
           name: "NIVEA",
           description: "",
           createdAt: new Date(),
@@ -799,12 +787,6 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          name: "SKEYNDOR ",
-          description: "",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
           name: "SKEYNDOR",
           description: "",
           createdAt: new Date(),
@@ -830,12 +812,6 @@ module.exports = {
         },
         {
           name: "SKINMEE",
-          description: "",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          name: "SKINMEE ",
           description: "",
           createdAt: new Date(),
           updatedAt: new Date(),

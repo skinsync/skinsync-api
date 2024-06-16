@@ -51,11 +51,11 @@ module.exports = {
         allowNull: true,
       },
       url: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       picture: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: true,
       },
       priority: {

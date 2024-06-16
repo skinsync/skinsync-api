@@ -59,11 +59,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       url: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
       },
       picture: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
       },
       priority: {

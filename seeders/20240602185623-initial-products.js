@@ -7125,7 +7125,7 @@ module.exports = {
           product_type_id: 4,
           name: "Harlette Oatmilk Day Creme ",
           description:
-            "Day crème dengan kandungan utama oat, susu dan niacinamide yang berfungsi untuk menyamarkan bekas jerawat, menahan minyak berlebih dan tetap melembabkan kulit. Serta memiliki SPF yang dapat melindungi kulit dari sinar matahari.",
+            "Day creme dengan kandungan utama oat, susu dan niacinamide yang berfungsi untuk menyamarkan bekas jerawat, menahan minyak berlebih dan tetap melembabkan kulit. Serta memiliki SPF yang dapat melindungi kulit dari sinar matahari.",
           notable_effects: "Moisturizing, UV-Protection",
           skintype: "Normal, Dry, Oily, Combination, Sensitive",
           price: 79000,
@@ -7141,7 +7141,7 @@ module.exports = {
           product_type_id: 2,
           name: "Harlette Unscented Waterymelon Deep Hydration Tone",
           description:
-            "Toner yang mudah menyerap ke dalam lapisan kulit terdalam, memudahkan layering dan keseimbangan pH kulit agar memperoleh skin barrier yang lebih kuat dan tidak rentan breakouts. Diformulasikan untuk melembabkan & menghidrasi secara optimal karena ada kandungan watermelon dan sodium hyaluronate. Dibuat tanpa parfum dan cocok untuk kulit sensitif dengan wewangian. Ukuran: 100ml No BPOM: NA18201204716 Manfaat: 🍉 Menghidrasi dan melembabkan kulit 🍉 Menenangkan dan menutrisi kulit bermasalah 🍉 Meredakan kemerahan atau peradangan pada kulit wajah 🍉 Kulit menjadi sehat & kenyal 🍉 Menyeimbangkan pH kulit dan membantu memperbaiki skin barrier",
+            "Toner yang mudah menyerap ke dalam lapisan kulit terdalam, memudahkan layering dan keseimbangan pH kulit agar memperoleh skin barrier yang lebih kuat dan tidak rentan breakouts. Diformulasikan untuk melembabkan & menghidrasi secara optimal karena ada kandungan watermelon dan sodium hyaluronate. Dibuat tanpa parfum dan cocok untuk kulit sensitif dengan wewangian. Ukuran: 100ml No BPOM: NA18201204716 Manfaat: Menghidrasi dan melembabkan kulit Menenangkan dan menutrisi kulit bermasalah Meredakan kemerahan atau peradangan pada kulit wajah Kulit menjadi sehat & kenyal Menyeimbangkan pH kulit dan membantu memperbaiki skin barrier",
           notable_effects: "Hydrating, Moisturizing",
           skintype: "Normal, Dry, Oily, Combination, Sensitive",
           price: 125000,
