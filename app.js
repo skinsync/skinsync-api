@@ -61,7 +61,7 @@ app.use("/files", filesRouter);
 app.use("/utils", utilsRouter);
 app.use("/profile", profileRouter);
 app.use("/saved-products", savedProductsRouter);
-// app.use("/predict", predictRouter);
+app.use("/predict", predictRouter);
 
 app.listen(PORT, () => {
   console.log("Express API running in port: " + PORT);

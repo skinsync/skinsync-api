@@ -1,38 +1,45 @@
-// async function predictClassification(model, image) {
-//   try {
-//     const tensor = tf.node
-//       .decodeImage(image)
-//       .resizeNearestNeighbor([224, 224])
-//       .expandDims()
-//       .toFloat();
+const tf = require("@tensorflow/tfjs-node");
 
-//     // const prediction = model.predict(tensor);
-//     // const result = prediction.dataSync();
-//     // const max = Math.max(...result);
-//     // const maxIndex = result.indexOf(max);
+async function predictClassification(model, image) {
+  try {
+    const tensor = tf.node
+      .decodeImage(image)
+      .resizeNearestNeighbor([224, 224])
+      .expandDims()
+      .toFloat();
 
-//     // return {
-//     //   prediction: maxIndex,
-//     //   confidence: max,
-//     // };
+    const prediction = model.predict(tensor);
+    const score = await prediction.data();
+    const confidenceScore = Math.max(...score) * 100;
 
-//     const prediction = model.predict(tensor);
-//     const score = await prediction.data();
-//     const confidenceScore = Math.max(...score) * 100;
+    const classes = ["Berjerawat", "Berminyak", "Kering", "Normal"];
+    const classResult = tf.argMax(prediction, 1).dataSync()[0];
+    const label = classes[classResult];
 
-//     const classes = ['Berjerawat', 'Berminyak', 'Kering', 'Normal'];
+    const predictionParsed = classes.map((label, index) => ({
+      label,
+      score: `${(score[index] * 100).toFixed(2)}%`,
+    }));
 
-//     const classResult = tf.argMax(prediction, 1).dataSync()[0];
-//     const label = classes[classResult];
+    let result;
+    let probability;
 
-//     return {
-//       prediction: label,
-//       confidence: confidenceScore,
-//     };
-//   }
-//   catch (error) {
-//     throw new Error(error);
-//   }
-// }
+    if (confidenceScore >= 0.5) {
+      result = label;
+      probability = (`${(confidenceScore).toFixed(2)}%`);
+    } else {
+      result = "Tidak Dapat Diklasifikasikan";
+      probability = (`${(confidenceScore).toFixed(2)}%`);
+    }
 
-// module.exports = predictClassification;
+    return {
+      prediction: predictionParsed,
+      result,
+      probability,
+    };
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+module.exports = predictClassification;
