@@ -37,11 +37,18 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true,
       },
-      skintype: {
-        type: Sequelize.ENUM,
+      notable_effects: {
+        type: Sequelize.STRING,
         allowNull: false,
-        values: ["oily", "dry", "normal", "combination"],
-        defaultValue: "normal",
+      },
+      skintype: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: "Normal",
+      },
+      price: {
+        type: Sequelize.BIGINT.UNSIGNED,
+        allowNull: true,
       },
       url: {
         type: Sequelize.STRING,

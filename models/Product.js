@@ -44,11 +44,19 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: true,
       },
-      skintype: {
-        type: DataTypes.ENUM,
+      notable_effects: {
+        type: DataTypes.STRING,
         allowNull: false,
-        values: ["oily", "dry", "normal", "combination"],
-        defaultValue: "normal",
+        field: "notable_effects",
+      },
+      skintype: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "Normal",
+      },
+      price: {
+        type: DataTypes.BIGINT.UNSIGNED,
+        allowNull: true,
       },
       url: {
         type: DataTypes.STRING,
