@@ -26,19 +26,15 @@ exports.predictSkintype = async (req, res) => {
 };
 
 exports.getRecommendation = async (req, res) => {
-  // const { skintype, product_type, notable_effects } = req.body;
-
-  const skintype = "Normal";
-  const productType = "Cleanser";
-  const notableEffects = ["Brightening", "Hydrating"];
+  const { skintype, product_type, notable_effects } = req.body;
 
   try {
     const model = req.app.locals.recommendationModel;
     const result = await getRecommendationProduct(
       model,
       skintype,
-      productType,
-      notableEffects
+      product_type,
+      notable_effects
     );
 
     return res.status(200).json({
@@ -51,74 +47,22 @@ exports.getRecommendation = async (req, res) => {
 };
 
 exports.getRecommendationProducts = async (req, res) => {
-  // const { skintype, productType, notableEffects } = req.body;
+  const { skintype, product_type, notable_effects } = req.body;
 
-  // Building filter object based on provided query parameters
-  // const filter = {};
-
-  // if (skintype) {
-  //   filter.skintype = skintype;
-  // }
-  // if (productType) {
-  //   filter.productType = productType;
-  // }
-  // if (notableEffects) {
-  //   // Convert notableEffects to array if it's a comma-separated string
-  //   const effectsArray =
-  //     typeof notableEffects === "string"
-  //       ? notableEffects.split(",")
-  //       : notableEffects;
-  //   // Use sequelize's 'contains' operator for JSONB array containment
-  //   filter.notableEffects = {
-  //     [Op.contains]: effectsArray,
-  //   };
-  // }
-
-  // try {
-  //   // Query products using the constructed filter
-  //   const products = await Product.findAll({
-  //     where: filter,
-  //     include: [{ all: true, nested: true }],
-  //   });
-
-  //   const products = await sequelize.query(
-  //     'SELECT * FROM products WHERE skintype = :skintype',
-  //     {
-  //       replacements: { skintype: skintype },
-  //       type: QueryTypes.SELECT
-  //     });
-
-  //   res.status(200).json(products);
-  // } catch (err) {
-  //   console.error("Error fetching products:", err);
-  //   res.status(500).json({ error: "Error fetching products" });
-  // }
-
-  const { skintype, productType, notableEffects } = req.body;
-  console.log("skintype", skintype);
-  console.log("productType", productType);
-  console.log("notableEffects", notableEffects);
-  console.log("req.body", req.body);
-
-  let notableEffectsStripped = notableEffects.replace(/'/g, '"');
+  let notableEffectsStripped = notable_effects.replace(/'/g, '"');
   let notableEffectsArray = JSON.parse(notableEffectsStripped);
   let whereClause = 'WHERE 1=1';
-
-  // if (skintype && skintype.length > 0) {
-  //   const skintypeCondition = skintype.map(st => `'${st}'`).join(', ');
-  //   whereClause += ` AND p.skintype IN (${skintypeCondition})`;
-  // }
 
   if (skintype) {
     whereClause += ` AND p.skintype LIKE '%${skintype}%'`;
   }
 
-  if (productType) {
-    whereClause += ` AND pt.name = '${productType}'`;
+  if (product_type) {
+    whereClause += ` AND pt.name = '${product_type}'`;
   }
 
   if (notableEffectsArray && notableEffectsArray.length > 0) {
-    const notableEffectsCondition = notableEffectsArray.map(ne => `p.notable_effects LIKE '%${ne}%'`).join(' OR ');
+    const notableEffectsCondition = notableEffectsArray.map(ne => `p.notable_effects LIKE '%${ne}%'`).join(' AND ');
     whereClause += ` AND (${notableEffectsCondition})`;
   }
 
