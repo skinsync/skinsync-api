@@ -7,31 +7,31 @@ module.exports = {
       "product_types",
       [
         {
-          name: "Face Wash",
+          name: "face wash",
           description: "",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          name: "Toner",
+          name: "toner",
           description: "",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          name: "Serum",
+          name: "serum",
           description: "",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          name: "Moisturizer",
+          name: "moisturizer",
           description: "",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          name: "Sunscreen",
+          name: "sunscreen",
           description: "",
           createdAt: new Date(),
           updatedAt: new Date(),
