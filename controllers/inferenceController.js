@@ -1,8 +1,8 @@
 const predictClassification = require("../services/skintypePrediction");
 const getRecommendationProduct = require("../services/skincareRecommendation");
 const Product = require("../models").Product;
-const { Op, QueryTypes } = require('sequelize');
-const sequelize = require('../models').sequelize;
+const { Op, QueryTypes } = require("sequelize");
+const sequelize = require("../models").sequelize;
 
 exports.predictSkintype = async (req, res) => {
   if (!req.file) {
@@ -26,9 +26,9 @@ exports.predictSkintype = async (req, res) => {
 };
 
 exports.getRecommendation = async (req, res) => {
-  const { skintype, product_type, notable_effects } = req.body;
-
+  
   try {
+    const { skintype, product_type, notable_effects } = req.body;
     const model = req.app.locals.recommendationModel;
     const result = await getRecommendationProduct(
       model,
@@ -47,26 +47,28 @@ exports.getRecommendation = async (req, res) => {
 };
 
 exports.getRecommendationProducts = async (req, res) => {
-  const { skintype, product_type, notable_effects } = req.body;
+  try {
+    const { skintype, product_type, notable_effects } = req.body;
+    let notableEffectsStripped = notable_effects.replace(/'/g, '"');
+    let notableEffectsArray = JSON.parse(notableEffectsStripped);
+    let whereClause = "WHERE 1=1";
 
-  let notableEffectsStripped = notable_effects.replace(/'/g, '"');
-  let notableEffectsArray = JSON.parse(notableEffectsStripped);
-  let whereClause = 'WHERE 1=1';
+    if (skintype) {
+      whereClause += ` AND p.skintype LIKE '%${skintype}%'`;
+    }
 
-  if (skintype) {
-    whereClause += ` AND p.skintype LIKE '%${skintype}%'`;
-  }
+    if (product_type) {
+      whereClause += ` AND pt.name = '${product_type}'`;
+    }
 
-  if (product_type) {
-    whereClause += ` AND pt.name = '${product_type}'`;
-  }
+    if (notableEffectsArray && notableEffectsArray.length > 0) {
+      const notableEffectsCondition = notableEffectsArray
+        .map((ne) => `p.notable_effects LIKE '%${ne}%'`)
+        .join(" AND ");
+      whereClause += ` AND (${notableEffectsCondition})`;
+    }
 
-  if (notableEffectsArray && notableEffectsArray.length > 0) {
-    const notableEffectsCondition = notableEffectsArray.map(ne => `p.notable_effects LIKE '%${ne}%'`).join(' AND ');
-    whereClause += ` AND (${notableEffectsCondition})`;
-  }
-
-  const query = `
+    const query = `
     SELECT
       b.name AS brand,
       pt.name AS product_type,
@@ -88,14 +90,12 @@ exports.getRecommendationProducts = async (req, res) => {
       product_types pt ON p.product_type_id = pt.id
     ${whereClause};
   `;
-
-  try {
     const results = await sequelize.query(query, {
-      type: sequelize.QueryTypes.SELECT
+      type: sequelize.QueryTypes.SELECT,
     });
-    res.json({
+    res.status(200).json({
       message: "Success",
-      data: results
+      data: results,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
