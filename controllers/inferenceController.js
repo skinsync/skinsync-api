@@ -1,7 +1,7 @@
 const predictClassification = require("../services/skintypePrediction");
 const getRecommendationProduct = require("../services/skincareRecommendation");
-const Product = require("../models").Product;
-const { Op, QueryTypes } = require("sequelize");
+const uploadToCloudStorage = require("../services/uploadCloudStorage");
+const Prediction = require("../models").Prediction;
 const sequelize = require("../models").sequelize;
 
 exports.predictSkintype = async (req, res) => {
@@ -15,6 +15,15 @@ exports.predictSkintype = async (req, res) => {
     const model = req.app.locals.predictionModel;
     const image = req.file.buffer;
     const result = await predictClassification(model, image);
+    const rawResult = JSON.stringify(result.prediction);
+
+    const publicUrl = await uploadToCloudStorage(req.file, "inference_images/");
+    const prediction = await Prediction.create({
+      result: result.result,
+      probability: result.probability,
+      raw: rawResult,
+      picture: publicUrl,
+    });
 
     return res.status(200).json({
       message: "Prediction success",
@@ -25,7 +34,7 @@ exports.predictSkintype = async (req, res) => {
   }
 };
 
-exports.getRecommendation = async (req, res) => {
+exports.getRecommendationByModel = async (req, res) => {
   try {
     const { skintype, product_type, notable_effects } = req.query;
     const model = req.app.locals.recommendationModel;
@@ -45,7 +54,7 @@ exports.getRecommendation = async (req, res) => {
   }
 };
 
-exports.getRecommendationProducts = async (req, res) => {
+exports.getRecommendationByRawQuery = async (req, res) => {
   try {
     const { skintype, product_type, notable_effects } = req.query;
     let whereClause = "WHERE 1=1";
