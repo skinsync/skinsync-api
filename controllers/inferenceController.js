@@ -26,9 +26,8 @@ exports.predictSkintype = async (req, res) => {
 };
 
 exports.getRecommendation = async (req, res) => {
-  
   try {
-    const { skintype, product_type, notable_effects } = req.body;
+    const { skintype, product_type, notable_effects } = req.query;
     const model = req.app.locals.recommendationModel;
     const result = await getRecommendationProduct(
       model,
@@ -48,9 +47,7 @@ exports.getRecommendation = async (req, res) => {
 
 exports.getRecommendationProducts = async (req, res) => {
   try {
-    const { skintype, product_type, notable_effects } = req.body;
-    let notableEffectsStripped = notable_effects.replace(/'/g, '"');
-    let notableEffectsArray = JSON.parse(notableEffectsStripped);
+    const { skintype, product_type, notable_effects } = req.query;
     let whereClause = "WHERE 1=1";
 
     if (skintype) {
@@ -61,8 +58,8 @@ exports.getRecommendationProducts = async (req, res) => {
       whereClause += ` AND pt.name = '${product_type}'`;
     }
 
-    if (notableEffectsArray && notableEffectsArray.length > 0) {
-      const notableEffectsCondition = notableEffectsArray
+    if (notable_effects && notable_effects.length > 0) {
+      const notableEffectsCondition = notable_effects
         .map((ne) => `p.notable_effects LIKE '%${ne}%'`)
         .join(" AND ");
       whereClause += ` AND (${notableEffectsCondition})`;
@@ -90,6 +87,7 @@ exports.getRecommendationProducts = async (req, res) => {
       product_types pt ON p.product_type_id = pt.id
     ${whereClause};
   `;
+
     const results = await sequelize.query(query, {
       type: sequelize.QueryTypes.SELECT,
     });
