@@ -2,17 +2,16 @@ const tf = require("@tensorflow/tfjs-node");
 
 async function predictClassification(model, image) {
   try {
-    const tensor = tf.node
-      .decodeImage(image)
-      .resizeNearestNeighbor([224, 224])
-      .expandDims()
-      .toFloat();
+    let tensor = tf.node.decodeImage(image, 3);
+    tensor = tf.image.resizeBilinear(tensor, [224, 224]);
+    tensor = tensor.expandDims(0);
+    tensor = tensor.toFloat().div(tf.scalar(127.5)).sub(tf.scalar(1.0));
 
     const prediction = model.predict(tensor);
     const score = await prediction.data();
     const confidenceScore = Math.max(...score) * 100;
 
-    const classes = ["Berjerawat", "Berminyak", "Kering", "Normal"];
+    const classes = ["berjerawat", "berminyak", "kering", "normal"];
     const classResult = tf.argMax(prediction, 1).dataSync()[0];
     const label = classes[classResult];
 
