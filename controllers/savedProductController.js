@@ -81,7 +81,7 @@ exports.deleteSavedProduct = async (req, res) => {
     });
 
     if (record === 0) {
-      return res.status(404).json({ error: "Record not found" });
+      return res.status(404).json({ error: "Product not found" });
     }
 
     res.json({ message: "Product unsaved" });
