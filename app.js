@@ -3,6 +3,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const dotenv = require("dotenv");
+const { sequelize } = require('./models');
 
 const {
   loadPredictionModel,
@@ -26,6 +27,12 @@ const app = express();
 
 dotenv.config();
 const PORT = process.env.PORT || 3300;
+
+sequelize.sync({ force: false }).then(() => {
+  console.log('Database synchronized');
+}).catch(err => {
+  console.error('Database synchronization error:', err);
+});
 
 let predictionModel;
 let recommendationModel;
