@@ -57,6 +57,7 @@ exports.getRecommendationByModel = async (req, res) => {
 exports.getRecommendationByRawQuery = async (req, res) => {
   try {
     const { skintype, product_type, notable_effects } = req.query;
+    const userId = req.user.id;
     let whereClause = "WHERE 1=1";
 
     if (skintype) {
@@ -76,6 +77,7 @@ exports.getRecommendationByRawQuery = async (req, res) => {
 
     const query = `
     SELECT
+      p.id AS id,
       b.name AS brand,
       pt.name AS product_type,
       p.name AS name,
@@ -87,13 +89,19 @@ exports.getRecommendationByRawQuery = async (req, res) => {
       p.picture AS picture,
       p.priority AS priority,
       p.createdAt AS createdAt,
-      p.updatedAt AS updatedAt
+      p.updatedAt AS updatedAt,
+      CASE
+        WHEN sp.user_id IS NOT NULL THEN true
+        ELSE false
+      END AS isSavedByUser
     FROM
       products p
     LEFT JOIN
       brands b ON p.brand_id = b.id
     LEFT JOIN
       product_types pt ON p.product_type_id = pt.id
+    LEFT JOIN
+      saved_products sp ON p.id = sp.product_id AND sp.user_id = ${userId}
     ${whereClause};
   `;
 

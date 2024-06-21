@@ -21,8 +21,9 @@ class CrudController {
       search = "",
       ...filters
     } = req.query;
-    const offset = (page - 1) * limit;
-
+  
+    const parsedLimit = parseInt(limit);
+  
     const searchCondition = search
       ? {
           [Op.or]: Object.keys(this.model.rawAttributes).map((key) => ({
@@ -30,29 +31,35 @@ class CrudController {
           })),
         }
       : {};
-
+  
     const filterConditions = Object.keys(filters).reduce((acc, key) => {
       acc[key] = { [Op.like]: `%${filters[key]}%` };
       return acc;
     }, {});
-
+  
     const where = {
       ...searchCondition,
       ...filterConditions,
     };
-
+  
     try {
-      const { count, rows } = await this.model.findAndCountAll({
+      const queryOptions = {
         where,
-        limit: parseInt(limit),
-        offset,
         order: [[sortBy, order]],
         attributes: {
           exclude: ["password"],
         },
         include: [{ all: true, nested: true }],
-      });
-
+      };
+  
+      if (parsedLimit !== 999) {
+        const offset = (page - 1) * parsedLimit;
+        queryOptions.limit = parsedLimit;
+        queryOptions.offset = offset;
+      }
+  
+      const { count, rows } = await this.model.findAndCountAll(queryOptions);
+  
       const cleanedRecords = rows.map((record) => {
         const cleanedRecord = record.toJSON();
         if (this.model.name === "Product") {
@@ -71,12 +78,12 @@ class CrudController {
         }
         return cleanedRecord;
       });
-
+  
       res.status(200).json({
         data: cleanedRecords,
         total: count,
-        page: parseInt(page),
-        pages: Math.ceil(count / limit),
+        page: parsedLimit !== 999 ? parseInt(page) : 1,
+        pages: parsedLimit !== 999 ? Math.ceil(count / parsedLimit) : 1,
       });
     } catch (error) {
       res.status(500).json({ error: error.message });
