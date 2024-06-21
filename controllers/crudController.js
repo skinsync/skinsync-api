@@ -21,9 +21,9 @@ class CrudController {
       search = "",
       ...filters
     } = req.query;
-  
+
     const parsedLimit = parseInt(limit);
-  
+
     const searchCondition = search
       ? {
           [Op.or]: Object.keys(this.model.rawAttributes).map((key) => ({
@@ -31,17 +31,17 @@ class CrudController {
           })),
         }
       : {};
-  
+
     const filterConditions = Object.keys(filters).reduce((acc, key) => {
       acc[key] = { [Op.like]: `%${filters[key]}%` };
       return acc;
     }, {});
-  
+
     const where = {
       ...searchCondition,
       ...filterConditions,
     };
-  
+
     try {
       const queryOptions = {
         where,
@@ -51,15 +51,15 @@ class CrudController {
         },
         include: [{ all: true, nested: true }],
       };
-  
+
       if (parsedLimit !== 999) {
         const offset = (page - 1) * parsedLimit;
         queryOptions.limit = parsedLimit;
         queryOptions.offset = offset;
       }
-  
+
       const { count, rows } = await this.model.findAndCountAll(queryOptions);
-  
+
       const cleanedRecords = rows.map((record) => {
         const cleanedRecord = record.toJSON();
         if (this.model.name === "Product") {
@@ -69,16 +69,15 @@ class CrudController {
           cleanedRecord.isSavedByUser = isSavedByUser;
           delete cleanedRecord.users;
         }
-        if (
-          this.model.name === "User" ||
-          this.model.name === "Brand" ||
-          this.model.name === "ProductType"
-        ) {
+        if (this.model.name === "User") {
           delete cleanedRecord.savedProducts;
+        }
+        if (this.model.name === "Brand" || this.model.name === "ProductType") {
+          delete cleanedRecord.products;
         }
         return cleanedRecord;
       });
-  
+
       res.status(200).json({
         data: cleanedRecords,
         total: count,
@@ -101,7 +100,7 @@ class CrudController {
       if (!record) return res.status(404).json({ error: "Record not found" });
 
       const cleanedRecord = record.toJSON();
-      
+
       if (this.model.name === "Product") {
         const isSavedByUser = cleanedRecord.users.some(
           (user) => user.id === req.user.id
@@ -109,11 +108,10 @@ class CrudController {
         cleanedRecord.isSavedByUser = isSavedByUser;
         delete cleanedRecord.users;
       }
-      if (
-        this.model.name === "User" ||
-        this.model.name === "Brand" ||
-        this.model.name === "ProductType"
-      ) {
+      if (this.model.name === "User") {
+        delete cleanedRecord.savedProducts;
+      }
+      if (this.model.name === "Brand" || this.model.name === "ProductType") {
         delete cleanedRecord.products;
       }
 
@@ -134,6 +132,14 @@ class CrudController {
           req.body.password,
           parseInt(dotenv.SALT_ROUND)
         );
+      }
+      if (this.model.name === "User") {
+        // check email is used
+        const user = await this.model.findOne({
+          where: { email: req.body.email },
+        });
+        if (user)
+          return res.status(400).json({ error: "Email is already used" });
       }
       const record = await this.model.create(req.body);
       delete record.dataValues.password;
